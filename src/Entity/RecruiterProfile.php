@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RecruiterProfileRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecruiterProfileRepository::class)]
@@ -21,6 +23,14 @@ class RecruiterProfile
 
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $companyAddress = null;
+
+    #[ORM\OneToMany(mappedBy: "recruiterID", targetEntity: "App\Entity\JobOffer")]
+    private Collection $jobOffers;
+
+    public function __construct()
+    {
+        $this->jobOffers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,5 +71,10 @@ class RecruiterProfile
         $this->companyAddress = $companyAddress;
 
         return $this;
+    }
+
+    public function getJobOffers(): Collection
+    {
+        return $this->jobOffers;
     }
 }

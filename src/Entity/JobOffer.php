@@ -13,8 +13,9 @@ class JobOffer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $recruiterID = null;
+    #[ORM\ManyToOne(targetEntity: "App\Entity\RecruiterProfile", inversedBy: "jobOffers")]
+    #[ORM\JoinColumn(name: "recruiter_id", referencedColumnName: "id")]
+    private ?RecruiterProfile $recruiterID;
 
     #[ORM\Column(length: 100)]
     private ?string $jobTitle = null;
@@ -45,12 +46,12 @@ class JobOffer
         return $this->id;
     }
 
-    public function getRecruiterID(): ?int
+    public function getRecruiterID(): ?RecruiterProfile
     {
         return $this->recruiterID;
     }
 
-    public function setRecruiterID(int $recruiterID): static
+    public function setRecruiterID(?RecruiterProfile $recruiterID): static
     {
         $this->recruiterID = $recruiterID;
 
