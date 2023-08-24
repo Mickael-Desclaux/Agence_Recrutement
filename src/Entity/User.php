@@ -4,21 +4,29 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column]
+    private string $role;
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
     #[Assert\Length(
         min: 8,
         minMessage: "Votre mot de passe doit contenir au minimum {{ limit }} caractères"
@@ -37,12 +45,6 @@ class User
     )]
     private ?string $password = null;
 
-    #[ORM\Column]
-    private ?int $role_id = null;
-
-    #[ORM\Column]
-    private bool $accountValidation = false;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -60,7 +62,35 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        return [$this->role];
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -72,27 +102,17 @@ class User
         return $this;
     }
 
-    public function getRoleId(): ?int
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
     {
-        return $this->role_id;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function setRoleId(int $role_id): static
+    public function getRole(): string
     {
-        $this->role_id = $role_id;
-
-        return $this;
-    }
-
-    public function isAccountValidation(): ?bool
-    {
-        return $this->accountValidation;
-    }
-
-    public function setAccountValidation(bool $accountValidation): static
-    {
-        $this->accountValidation = $accountValidation;
-
-        return $this;
+        return $this->role;
     }
 }
