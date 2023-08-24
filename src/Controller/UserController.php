@@ -25,7 +25,7 @@ class UserController extends AbstractController
             $user->setPassword($password);
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('/');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user/form.html.twig', [
