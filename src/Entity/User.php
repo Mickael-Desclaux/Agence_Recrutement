@@ -45,6 +45,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $password = null;
 
+    #[ORM\Column]
+    private bool $userValidation = false;
+
+    public function isUserValidation(): bool
+    {
+        return $this->userValidation;
+    }
+
+    public function setUserValidation(bool $userValidation): void
+    {
+        $this->userValidation = $userValidation;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

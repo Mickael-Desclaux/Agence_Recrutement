@@ -19,7 +19,7 @@ security:
             form_login:
                 check_path: login
                 login_path: login
-                default_target_path: home
+                default_target_path: 'home'
                 username_parameter: '_username'
                 password_parameter: '_password'
                 enable_csrf: true
