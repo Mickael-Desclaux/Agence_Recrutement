@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\CandidateProfile;
+use App\Entity\RecruiterProfile;
 use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,6 +27,19 @@ class UserController extends AbstractController
             $user->setPassword($password);
             $em->persist($user);
             $em->flush();
+
+            if($user->getRole() == 'ROLE_CANDIDATE') {
+                $candidateProfile = new CandidateProfile();
+                $candidateProfile->setUser($user);
+                $em->persist($candidateProfile);
+            } elseif ($user->getRole() == 'ROLE_RECRUITER') {
+                $recruiterProfile = new RecruiterProfile();
+                $recruiterProfile->setUser($user);
+                $em->persist($recruiterProfile);
+            }
+
+            $em->flush();
+
             return $this->redirectToRoute('home');
         }
 

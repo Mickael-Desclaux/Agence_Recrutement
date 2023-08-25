@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -53,9 +54,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userValidation;
     }
 
+    /**
+     * @var RecruiterProfile[]|ArrayCollection
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: RecruiterProfile::class)]
+    private $recruiterProfiles;
+
+    /**
+     * @var RecruiterProfile[]|ArrayCollection
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CandidateProfile::class)]
+    private $candidateProfiles;
+
+    public function __construct() {
+        $this->recruiterProfiles = new ArrayCollection();
+        $this->candidateProfiles = new ArrayCollection();
+    }
+
+    public function getCandidateProfiles(): ArrayCollection
+    {
+        return $this->candidateProfiles;
+    }
+
+    public function addCandidateProfile(CandidateProfile $candidateProfile): self
+    {
+        if (!$this->candidateProfiles->contains($candidateProfile)) {
+            $this->candidateProfiles[] = $candidateProfile;
+            $candidateProfile->setUser($this);
+        }
+
+        return $this;
+    }
+
     public function setUserValidation(bool $userValidation): void
     {
         $this->userValidation = $userValidation;
+    }
+
+    public function getRecruiterProfiles(): ArrayCollection
+    {
+        return $this->recruiterProfiles;
+    }
+
+    public function addRecruiterProfile(RecruiterProfile $recruiterProfile): self
+    {
+        if (!$this->recruiterProfiles->contains($recruiterProfile)) {
+            $this->recruiterProfiles[] = $recruiterProfile;
+            $recruiterProfile->setUser($this);
+        }
+
+        return $this;
     }
 
     public function getId(): ?int

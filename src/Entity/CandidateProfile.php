@@ -13,8 +13,9 @@ class CandidateProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $UserID = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'candidateProfiles')]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+    private ?User $user;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $lastName = null;
@@ -28,18 +29,6 @@ class CandidateProfile
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserID(): ?int
-    {
-        return $this->UserID;
-    }
-
-    public function setUserID(int $UserID): static
-    {
-        $this->UserID = $UserID;
-
-        return $this;
     }
 
     public function getLastName(): ?string
@@ -74,6 +63,18 @@ class CandidateProfile
     public function setResume(?string $resume): static
     {
         $this->resume = $resume;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

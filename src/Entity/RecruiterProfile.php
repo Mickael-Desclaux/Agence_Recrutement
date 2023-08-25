@@ -15,8 +15,9 @@ class RecruiterProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $userID = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'recruiterProfiles')]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+    private ?User $user;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $companyName = null;
@@ -35,18 +36,6 @@ class RecruiterProfile
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserID(): ?int
-    {
-        return $this->userID;
-    }
-
-    public function setUserID(int $userID): static
-    {
-        $this->userID = $userID;
-
-        return $this;
     }
 
     public function getCompanyName(): ?string
@@ -76,5 +65,17 @@ class RecruiterProfile
     public function getJobOffers(): Collection
     {
         return $this->jobOffers;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
