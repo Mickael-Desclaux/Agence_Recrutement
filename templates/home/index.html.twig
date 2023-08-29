@@ -4,6 +4,20 @@
 
 {% block body %}
     <div>
+        <h1>Offres d'emploi</h1>
 
+        {% for job_offer in job_offers %}
+            <div>
+                <h2>{{ job_offer.jobTitle }}</h2>
+                <p>{{ job_offer.jobLocation }}</p>
+                <p>{{ job_offer.contractType }}</p>
+                <p>{{ job_offer.jobDescription }}</p>
+                <p>{{ job_offer.candidateExperience }}</p>
+                <p>{{ job_offer.workingHours }}</p>
+                <p>{{ job_offer.salary }}</p>
+            </div>
+        {% else %}
+            <p>Aucune offre d'emploi disponible.</p>
+        {% endfor %}
     </div>
 {% endblock %}
