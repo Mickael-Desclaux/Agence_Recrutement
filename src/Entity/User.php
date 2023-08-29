@@ -54,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userValidation;
     }
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: JobOffer::class)]
+    private $jobOffers;
+
     /**
      * @var RecruiterProfile[]|ArrayCollection
      */
@@ -61,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $recruiterProfiles;
 
     /**
-     * @var RecruiterProfile[]|ArrayCollection
+     * @var CandidateProfile[]|ArrayCollection
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CandidateProfile::class)]
     private $candidateProfiles;
@@ -69,6 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct() {
         $this->recruiterProfiles = new ArrayCollection();
         $this->candidateProfiles = new ArrayCollection();
+        $this->jobOffers = new ArrayCollection();
     }
 
     public function getCandidateProfiles(): ArrayCollection
@@ -175,5 +179,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRole(): string
     {
         return $this->role;
+    }
+
+    public function getJobOffers()
+    {
+        return $this->jobOffers;
+    }
+
+    public function addJobOffer(JobOffer $jobOffer): self
+    {
+        if (!$this->jobOffers->contains($jobOffer)) {
+            $this->jobOffers[] = $jobOffer;
+            $jobOffer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobOffer(JobOffer $jobOffer): self
+    {
+        if ($this->jobOffers->removeElement($jobOffer)) {
+            // set the owning side to null (unless already changed)
+            if ($jobOffer->getUser() === $this) {
+                $jobOffer->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -25,14 +25,6 @@ class RecruiterProfile
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $companyAddress = null;
 
-    #[ORM\OneToMany(mappedBy: "recruiterID", targetEntity: "App\Entity\JobOffer")]
-    private Collection $jobOffers;
-
-    public function __construct()
-    {
-        $this->jobOffers = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -60,11 +52,6 @@ class RecruiterProfile
         $this->companyAddress = $companyAddress;
 
         return $this;
-    }
-
-    public function getJobOffers(): Collection
-    {
-        return $this->jobOffers;
     }
 
     public function getUser(): ?User

@@ -40,7 +40,7 @@ class UserController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('user_new');
         }
 
         return $this->render('user/form.html.twig', [

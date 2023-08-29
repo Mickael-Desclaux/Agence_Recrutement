@@ -72,7 +72,7 @@ class CandidateProfileController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
 
-                // updates the 'brochureFilename' property to store the PDF file name
+                // updates the 'resume' property to store the PDF file name
                 // instead of its contents
                 $candidateProfile->setResume($newFilename);
             }
