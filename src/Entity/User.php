@@ -25,6 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $role;
 
     /**
+     * @var Application[]|ArrayCollection
+     */
+    #[ORM\OneToMany(mappedBy: "candidate", targetEntity: Application::class)]
+    private $applications;
+
+    /**
      * @var string The hashed password
      */
     #[ORM\Column]
@@ -206,5 +212,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Application[]|ArrayCollection
+     */
+    public function getApplications(): array|ArrayCollection
+    {
+        return $this->applications;
+    }
+
+    /**
+     * @param Application[]|ArrayCollection $applications
+     */
+    public function setApplications(array|ArrayCollection $applications): void
+    {
+        $this->applications = $applications;
     }
 }

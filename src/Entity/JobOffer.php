@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\JobOfferRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JobOfferRepository::class)]
@@ -40,6 +41,12 @@ class JobOffer
 
     #[ORM\Column]
     private bool $publishValidation = false;
+
+    /**
+     * @var Application[]|ArrayCollection
+     */
+    #[ORM\OneToMany(mappedBy: "jobOffer", targetEntity: Application::class)]
+    private $applications;
 
     public function getId(): ?int
     {
@@ -152,5 +159,37 @@ class JobOffer
         $this->publishValidation = $publishValidation;
 
         return $this;
+    }
+
+    /**
+     * @return Application[]|ArrayCollection
+     */
+    public function getApplications(): array|ArrayCollection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): self
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications[] = $application;
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): self
+    {
+        $this->applications->removeElement($application);
+
+        return $this;
+    }
+
+    /**
+     * @param Application[]|ArrayCollection $applications
+     */
+    public function setApplications(array|ArrayCollection $applications): void
+    {
+        $this->applications = $applications;
     }
 }

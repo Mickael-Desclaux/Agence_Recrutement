@@ -16,8 +16,11 @@ class Application
     #[ORM\Column]
     private ?int $jobOfferID = null;
 
-    #[ORM\Column]
-    private ?int $candidateID = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "applications")]
+    private ?User $candidate;
+
+    #[ORM\ManyToOne(targetEntity: JobOffer::class, inversedBy: "applications")]
+    private ?JobOffer $jobOffer;
 
     #[ORM\Column]
     private bool $applicationValidation = false;
@@ -39,18 +42,6 @@ class Application
         return $this;
     }
 
-    public function getCandidateID(): ?int
-    {
-        return $this->candidateID;
-    }
-
-    public function setCandidateID(int $candidateID): static
-    {
-        $this->candidateID = $candidateID;
-
-        return $this;
-    }
-
     public function isApplicationValidation(): ?bool
     {
         return $this->applicationValidation;
@@ -61,5 +52,27 @@ class Application
         $this->applicationValidation = $applicationValidation;
 
         return $this;
+    }
+
+    public function getJobOffer(): ?JobOffer
+    {
+        return $this->jobOffer;
+    }
+
+    public function setJobOffer(?JobOffer $jobOffer): void
+    {
+        $this->jobOffer = $jobOffer;
+    }
+
+    public function setCandidate(User $candidate): self
+    {
+        $this->candidate = $candidate;
+
+        return $this;
+    }
+
+    public function getCandidate(): ?User
+    {
+        return $this->candidate;
     }
 }

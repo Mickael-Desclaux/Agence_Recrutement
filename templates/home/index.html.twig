@@ -15,6 +15,9 @@
                 <p>{{ job_offer.candidateExperience }}</p>
                 <p>{{ job_offer.workingHours }}</p>
                 <p>{{ job_offer.salary }}</p>
+                {% if is_granted('ROLE_CANDIDATE') %}
+                <a href="{{ path('job_offer_application', {'jobOfferId': job_offer.id}) }}">Envoyer ma candidature</a>
+                {% endif %}
             </div>
         {% else %}
             <p>Aucune offre d'emploi disponible.</p>

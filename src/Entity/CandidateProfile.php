@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CandidateProfileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CandidateProfileRepository::class)]
@@ -25,6 +26,12 @@ class CandidateProfile
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resume = null;
+
+    /**
+     * @var Application[]|ArrayCollection
+     */
+    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Application::class)]
+    private $applications;
 
     public function getId(): ?int
     {
@@ -77,5 +84,21 @@ class CandidateProfile
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @return Application[]|ArrayCollection
+     */
+    public function getApplications(): array|ArrayCollection
+    {
+        return $this->applications;
+    }
+
+    /**
+     * @param Application[]|ArrayCollection $applications
+     */
+    public function setApplications(array|ArrayCollection $applications): void
+    {
+        $this->applications = $applications;
     }
 }
