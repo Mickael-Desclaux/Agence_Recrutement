@@ -30,7 +30,7 @@ class CandidateProfile
     /**
      * @var Application[]|ArrayCollection
      */
-    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Application::class)]
+    #[ORM\OneToMany(mappedBy: 'candidateProfile', targetEntity: Application::class)]
     private $applications;
 
     public function getId(): ?int

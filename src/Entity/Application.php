@@ -22,6 +22,9 @@ class Application
     #[ORM\ManyToOne(targetEntity: JobOffer::class, inversedBy: "applications")]
     private ?JobOffer $jobOffer;
 
+    #[ORM\ManyToOne(targetEntity: CandidateProfile::class, inversedBy: "applications")]
+    private ?CandidateProfile $candidateProfile;
+
     #[ORM\Column]
     private bool $applicationValidation = false;
 
@@ -43,6 +46,11 @@ class Application
     }
 
     public function isApplicationValidation(): ?bool
+    {
+        return $this->applicationValidation;
+    }
+
+    public function getApplicationValidation(): ?bool
     {
         return $this->applicationValidation;
     }
@@ -74,5 +82,15 @@ class Application
     public function getCandidate(): ?User
     {
         return $this->candidate;
+    }
+
+    public function getCandidateProfile(): ?CandidateProfile
+    {
+        return $this->candidateProfile;
+    }
+
+    public function setCandidateProfile(?CandidateProfile $candidateProfile): void
+    {
+        $this->candidateProfile = $candidateProfile;
     }
 }

@@ -1,0 +1,5 @@
+{# templates/emails/application_validated.html.twig #}
+
+<h1>Nouvelle candidature</h1>
+<p>La candidature de {{ candidateProfile.firstName ~ " " ~ candidateProfile.lastName }} a été validée.</p>
+<p>CV du candidat : <a href="{{ 'uploads/resumes/' ~ candidateProfile.resume }}">Télécharger</a></p>

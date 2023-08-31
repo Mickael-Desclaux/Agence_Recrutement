@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Application;
+use App\Entity\CandidateProfile;
 use App\Entity\JobOffer;
 use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManager;
@@ -40,9 +41,13 @@ class HomeController extends AbstractController
             throw $this->createNotFoundException('Job Offer not found');
         }
 
+        $candidateProfileRepository = $entityManager->getRepository(CandidateProfile::class);
+        $candidateProfile = $candidateProfileRepository->findOneBy(['user' => $user]);
+
         $application = new Application();
         $application->setCandidate($user);
         $application->setJobOffer($jobOffer);
+        $application->setCandidateProfile($candidateProfile);
 
         $entityManager->persist($application);
         $entityManager->flush();
