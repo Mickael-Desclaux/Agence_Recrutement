@@ -6,6 +6,7 @@ use App\Entity\JobOffer;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 
@@ -19,6 +20,7 @@ class JobOfferCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield IntegerField::new('id')->setLabel('ID de l\'annonce');
         yield TextField::new('jobTitle')->setLabel('Titre');
         yield TextField::new('jobLocation')->setLabel('Adresse');
         yield ChoiceField::new('contractType')->setChoices([

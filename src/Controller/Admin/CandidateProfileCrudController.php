@@ -16,6 +16,7 @@ class CandidateProfileCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        yield IntegerField::new('id')->setLabel('ID du candidat');
         yield TextField::new('lastName')->setLabel('Nom de famille');
         yield TextField::new('firstName')->setLabel('Prénom');
         yield TextField::new('resume')->setLabel('CV');

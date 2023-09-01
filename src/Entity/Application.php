@@ -93,4 +93,16 @@ class Application
     {
         $this->candidateProfile = $candidateProfile;
     }
+
+    public function getCandidateProfileId(): ?int
+    {
+        return $this->candidateProfile?->getId();
+    }
+
+    public function getCandidateResumeLink(): ?string
+    {
+        return $this->candidateProfile ? sprintf('<a href="/uploads/resumes/%s" target="_blank">Voir le CV</a>', $this->candidateProfile->getResume()) : 'Pas de CV disponible';
+    }
+
+
 }

@@ -3,21 +3,24 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Application;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Mailer\MailerInterface;
 
 class ApplicationCrudController extends AbstractCrudController
 {
     private $mailer;
     private $entityManager;
+    private $emailService;
 
-    public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager) {
+    public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager, EmailService $emailService) {
         $this->mailer = $mailer;
         $this->entityManager = $entityManager;
+        $this->emailService = $emailService;
     }
 
     public static function getEntityFqcn(): string
@@ -28,7 +31,8 @@ class ApplicationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IntegerField::new('jobOfferID')->setLabel('ID annonce');
-        yield IntegerField::new('candidateID')->setLabel('ID du candidat');
+        yield IntegerField::new('candidateProfileId')->setLabel('ID du candidat');
+        yield TextField::new('candidateResumeLink', 'CV du candidat')->renderAsHtml();
         yield BooleanField::new('applicationValidation')->setLabel('Validation');
     }
 
@@ -38,25 +42,7 @@ class ApplicationCrudController extends AbstractCrudController
 
         if ($entityInstance->getApplicationValidation()) {
 
-            $recruiterEmail = $entityInstance->getJobOffer()->getUser()->getEmail();
-            $candidateProfile = $entityInstance->getCandidateProfile();
-
-            $email = (new TemplatedEmail())
-                ->from('mickaeldesclaux@gmail.com')
-                ->to($recruiterEmail)
-                ->subject('Nouvelle candidature validée')
-                ->htmlTemplate('emails/application_validated.html.twig')
-                ->context([
-                    'application' => $entityInstance,
-                    'candidateProfile' => $candidateProfile,
-                ])
-                ->attachFromPath(
-                    sprintf('%s/public/uploads/resumes/%s', $this->getParameter('kernel.project_dir'), $candidateProfile->getResume())
-//                ->attachFromPath(
-//                    '/path/to/pdf/folder/' . $candidateProfile->getResume()
-                );
-
-            $this->mailer->send($email);
+            $this->emailService->sendApplicationValidationEmail($entityInstance, $this->getParameter('kernel.project_dir'));
 
             $this->addFlash('success', 'La candidature a été validée et un email a été envoyé.');
         }
