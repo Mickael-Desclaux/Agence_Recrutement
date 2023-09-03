@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes annonces{% endblock %}
+
+{% block body %}
+    <h1>Mes Annonces</h1>
+    <div>
+        {% for job_offer in my_job_offers %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h2 class="card-title">{{ job_offer.jobTitle }}</h2>
+                    <h3 class="card-subtitle mb-2 text-body-secondary">{{ job_offer.contractType ~ ' ' ~  job_offer.jobLocation }}</h3>
+                    <a href="{{ path('job_offer_detail', {'id': job_offer.id}) }}">Détails</a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucune offre d'emploi disponible.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

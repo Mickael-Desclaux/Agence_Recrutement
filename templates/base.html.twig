@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}TRT Conseil{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}TRT Conseil{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+              crossorigin="anonymous">
+    {% endblock %}
 
-        {% block javascripts %}
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-        {% endblock %}
-    </head>
-    <body>
-        {% block header %}
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">TRT Conseil</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ path('home') }}">Accueil</a>
-                            </li>
-                            <li class="nav-item">
-                                {% if is_granted('ROLE_CANDIDATE') %}
-                                <a class="nav-link" href="{{ path('candidate_profile') }}">Mon Profil</a>
-                                {% elseif is_granted('ROLE_RECRUITER') %}
-                                <a class="nav-link" href="{{ path('recruiter_profile') }}">Mon Profil</a>
-                                {% endif %}
-                            </li>
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">TRT Conseil</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('home') }}">Accueil</a>
+                    </li>
+                    {% if is_granted('ROLE_CANDIDATE') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('candidate_profile') }}">Mon Profil</a>
+                        </li>
+                    {% elseif is_granted('ROLE_RECRUITER') %}
+                        <li>
+                        <a class="nav-link" href="{{ path('recruiter_profile') }}">Mon Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('job_offer_new') }}">Publier une annonce</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('my_job_offers') }}">Mes annonces</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_CONSULTANT') or is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin') }}">Espace administration</a>
+                        </li>
+                    {% endif %}
 
-                            {% if is_granted('ROLE_RECRUITER') %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('job_offer_new') }}">Publier une annonce</a>
-                            </li>
-                            {% endif %}
-
-                            {% if is_granted('ROLE_CONSULTANT') or is_granted('ROLE_ADMIN') %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin') }}">Espace administration</a>
-                                </li>
-                            {% endif %}
-
-                            {% if app.user %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">Déconnexion</a>
-                            </li>
-                            {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/login">Connexion</a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        {% endblock %}
-        {% block body %}{% endblock %}
-    </body>
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Connexion</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+{% block body %}{% endblock %}
+</body>
 </html>

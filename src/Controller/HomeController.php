@@ -38,7 +38,7 @@ class HomeController extends AbstractController
         $jobOffer = $entityManager->getRepository(JobOffer::class)->find($jobOfferId);
 
         if (!$jobOffer) {
-            throw $this->createNotFoundException('Job Offer not found');
+            throw $this->createNotFoundException('Offre d\'emploi non trouvée');
         }
 
         $candidateProfileRepository = $entityManager->getRepository(CandidateProfile::class);
@@ -48,7 +48,6 @@ class HomeController extends AbstractController
         $application->setCandidate($user);
         $application->setJobOffer($jobOffer);
         $application->setCandidateProfile($candidateProfile);
-
         $entityManager->persist($application);
         $entityManager->flush();
 

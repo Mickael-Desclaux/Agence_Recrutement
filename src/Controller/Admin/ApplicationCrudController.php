@@ -13,9 +13,9 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class ApplicationCrudController extends AbstractCrudController
 {
-    private $mailer;
-    private $entityManager;
-    private $emailService;
+    private MailerInterface $mailer;
+    private EntityManagerInterface $entityManager;
+    private EmailService $emailService;
 
     public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager, EmailService $emailService) {
         $this->mailer = $mailer;

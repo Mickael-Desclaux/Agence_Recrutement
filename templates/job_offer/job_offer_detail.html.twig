@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes annonces{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h2 class="card-title">{{ job_offer.jobTitle }}</h2>
+                <h3 class="card-subtitle mb-2 text-body-secondary">{{ job_offer.contractType ~ ' ' ~  job_offer.jobLocation }}</h3>
+                <p class="card-text">{{ job_offer.jobDescription }} <br>
+                    {{ job_offer.candidateExperience }}<br>
+                    {{ job_offer.workingHours }}<br>
+                    {{ job_offer.salary }}</p>
+            </div>
+        </div>
+
+        <h2>Candidatures pour cette annonce :</h2>
+        <ul>
+            {% for application in valid_applications %}
+                <ul>
+                    <li><a href="{{ '/uploads/resumes/' ~ application.getCandidateProfile().getResume() }}"
+                           target="_blank">{{ application.getCandidateProfile().getLastName() ~ ' ' ~
+                            application.getCandidateProfile().getFirstName() }}</a></li>
+                </ul>
+            {% else %}
+                <li>Aucun candidat n'a postulé pour cette annonce.</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+{% endblock %}

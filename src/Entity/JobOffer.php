@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\JobOfferRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 #[ORM\Entity(repositoryClass: JobOfferRepository::class)]
 class JobOffer
@@ -43,7 +44,7 @@ class JobOffer
     private bool $publishValidation = false;
 
     /**
-     * @var Application[]|ArrayCollection
+     * @var Application[]|ArrayCollection|PersistentCollection
      */
     #[ORM\OneToMany(mappedBy: "jobOffer", targetEntity: Application::class)]
     private $applications;
@@ -162,9 +163,9 @@ class JobOffer
     }
 
     /**
-     * @return Application[]|ArrayCollection
+     * @return Application[]|ArrayCollection|PersistentCollection
      */
-    public function getApplications(): array|ArrayCollection
+    public function getApplications(): array|ArrayCollection|PersistentCollection
     {
         return $this->applications;
     }

@@ -59,7 +59,6 @@ class CandidateProfileController extends AbstractController
 
             if ($resumeFile) {
                 $originalFilename = pathinfo($resumeFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $resumeFile->guessExtension();
 
