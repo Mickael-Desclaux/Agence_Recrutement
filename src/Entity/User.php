@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -61,19 +62,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: JobOffer::class)]
-    private $jobOffers;
+    private Collection $jobOffers;
 
     /**
      * @var RecruiterProfile[]|ArrayCollection
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: RecruiterProfile::class)]
-    private $recruiterProfiles;
+    private array|Collection $recruiterProfiles;
 
     /**
      * @var CandidateProfile[]|ArrayCollection
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CandidateProfile::class)]
-    private $candidateProfiles;
+    private array|Collection $candidateProfiles;
 
     public function __construct() {
         $this->recruiterProfiles = new ArrayCollection();
@@ -94,6 +95,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getUserValidation(): bool
+    {
+        return $this->userValidation;
     }
 
     public function setUserValidation(bool $userValidation): void
@@ -187,7 +193,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->role;
     }
 
-    public function getJobOffers()
+    public function getJobOffers(): ArrayCollection
     {
         return $this->jobOffers;
     }
@@ -205,7 +211,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeJobOffer(JobOffer $jobOffer): self
     {
         if ($this->jobOffers->removeElement($jobOffer)) {
-            // set the owning side to null (unless already changed)
             if ($jobOffer->getUser() === $this) {
                 $jobOffer->setUser(null);
             }
@@ -228,5 +233,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setApplications(array|ArrayCollection $applications): void
     {
         $this->applications = $applications;
+    }
+
+    public function validateUser(): void
+    {
+        $this->userValidation = true;
+
+        if ($this->role === 'ROLE_CANDIDATE') {
+            $this->role = 'ROLE_CANDIDATE_VALID';
+        } elseif ($this->role === 'ROLE_RECRUITER') {
+            $this->role = 'ROLE_RECRUITER_VALID';
+        }
     }
 }

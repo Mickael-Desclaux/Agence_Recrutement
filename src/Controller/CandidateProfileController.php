@@ -20,10 +20,6 @@ class CandidateProfileController extends AbstractController
     #[Route('/candidate/profile', name: 'candidate_profile')]
     public function profileView(CandidateProfileRepository $candidateProfileRepository, UserInterface $user): Response
     {
-        if (!$user instanceof User || !in_array('ROLE_CANDIDATE', $user->getRoles())) {
-            throw $this->createAccessDeniedException('Accès interdit');
-        }
-
         $recruiterProfile = $candidateProfileRepository->findOneBy(['user' => $user]);
 
         if (!$recruiterProfile) {
@@ -38,10 +34,6 @@ class CandidateProfileController extends AbstractController
     #[Route('/candidate/profile/edit', name: 'candidate_profile_edit')]
     public function editProfile(Request $request, UserInterface $user, CandidateProfileRepository $candidateProfileRepository, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        if (!$user instanceof User || !in_array('ROLE_CANDIDATE', $user->getRoles())) {
-            throw $this->createAccessDeniedException('Accès interdit');
-        }
-
         $candidateProfile = $candidateProfileRepository->findOneBy(['user' => $user]);
 
         if (!$candidateProfile) {

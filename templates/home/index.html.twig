@@ -15,7 +15,7 @@
                         {{ job_offer.candidateExperience }}<br>
                         {{ job_offer.workingHours }}<br>
                         {{ job_offer.salary }}</p>
-                    {% if is_granted('ROLE_CANDIDATE') %}
+                    {% if is_granted('ROLE_CANDIDATE_VALID') %}
                         <a href="{{ path('job_offer_application', {'jobOfferId': job_offer.id}) }}"
                            class="card-link">Postuler</a>
                     {% endif %}

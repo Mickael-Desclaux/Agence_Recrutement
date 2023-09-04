@@ -15,13 +15,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class JobOfferController extends AbstractController
 {
-    #[Route('/job/offer/new', name: 'job_offer_new')]
+    #[Route('/recruiter/job/offer/new', name: 'job_offer_new')]
     public function newJobOffer(Request $request, ManagerRegistry $doctrine, UserInterface $user): Response
     {
-        if (!$user instanceof User || !in_array('ROLE_RECRUITER', $user->getRoles())) {
-            throw $this->createAccessDeniedException('Accès interdit');
-        }
-
         $jobOffer = new JobOffer();
         $jobOffer->setUser($user);
         $form = $this->createForm(JobOfferType::class, $jobOffer);
@@ -39,13 +35,9 @@ class JobOfferController extends AbstractController
         ]);
     }
 
-    #[Route('/job/my_offers', name: 'my_job_offers')]
-    public function myJobOffers(UserInterface $user, JobOfferRepository $jobOfferRepository)
+    #[Route('/recruiter/job/my_offers', name: 'my_job_offers')]
+    public function myJobOffers(UserInterface $user, JobOfferRepository $jobOfferRepository): Response
     {
-        if (!$user instanceof User || !in_array('ROLE_RECRUITER', $user->getRoles())) {
-            throw $this->createAccessDeniedException('Accès interdit');
-        }
-
         $myJobOffers = $jobOfferRepository->findBy(['user' => $user, 'publishValidation' => true]);
 
         return $this->render('job_offer/my_job_offers.html.twig', [
@@ -53,7 +45,7 @@ class JobOfferController extends AbstractController
         ]);
     }
 
-    #[Route('/job/my_offers/{id}', name: 'job_offer_detail')]
+    #[Route('/recruiter/job/my_offers/{id}', name: 'job_offer_detail')]
     public function jobOfferDetail(JobOffer $jobOffer): Response
     {
         $validApplications = [];

@@ -17,10 +17,6 @@ class RecruiterProfileController extends AbstractController
     #[Route('/recruiter/profile', name: 'recruiter_profile')]
     public function profileView(RecruiterProfileRepository $recruiterProfileRepository, UserInterface $user): Response
     {
-        if (!$user instanceof User || !in_array('ROLE_RECRUITER', $user->getRoles())) {
-            throw $this->createAccessDeniedException('Accès interdit');
-        }
-
         $recruiterProfile = $recruiterProfileRepository->findOneBy(['user' => $user]);
 
         if (!$recruiterProfile) {
@@ -35,10 +31,6 @@ class RecruiterProfileController extends AbstractController
     #[Route('/recruiter/profile/edit', name: 'recruiter_profile_edit')]
     public function editProfile(Request $request, UserInterface $user, RecruiterProfileRepository $recruiterProfileRepository, EntityManagerInterface $entityManager): Response
     {
-        if (!$user instanceof User || !in_array('ROLE_RECRUITER', $user->getRoles())) {
-            throw $this->createAccessDeniedException('Accès interdit');
-        }
-
         $recruiterProfile = $recruiterProfileRepository->findOneBy(['user' => $user]);
 
         if (!$recruiterProfile) {
