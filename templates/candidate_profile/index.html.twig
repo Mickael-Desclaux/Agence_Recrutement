@@ -4,11 +4,16 @@
 
 {% block body %}
 
-<div>
-    <h1>Profil</h1>
-    <p>{{ candidateProfile.lastName }}</p>
-    <p>{{ candidateProfile.firstName }}</p>
-    <a href="{{ asset('uploads/resumes/' ~ candidateProfile.resume) }}">Voir mon CV</a>
-    <a href="/candidate/profile/edit"><button>Modifier</button></a>
-</div>
+    <div class="container-fluid col-lg-8">
+        <h1 class="m-5 text-center">Profil</h1>
+        <div class="text-center">
+            <p>Prénom : {{ candidateProfile.firstname }}</p>
+            <p>Nom de famille : {{ candidateProfile.lastname }}</p>
+            {% if candidateProfile.resume %}
+            <p><a href="{{ asset('uploads/resumes/' ~ candidateProfile.resume) }}">Voir mon CV</a></p>
+            {% endif %}
+            <a href="{{ path('candidate_profile_edit') }}" class="btn btn-primary text-center mt-4">Mettre à jour mon profil
+            </a>
+        </div>
+    </div>
 {% endblock %}

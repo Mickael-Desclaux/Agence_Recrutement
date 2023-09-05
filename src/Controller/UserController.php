@@ -40,7 +40,7 @@ class UserController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Votre demande a bien été enregistrée, veuillez attendre la validation du compte par nos consultants');
+            $this->addFlash('notice', 'Votre demande a bien été enregistrée, veuillez attendre la validation du compte par nos consultants');
 
             return $this->redirectToRoute('user_new');
         }

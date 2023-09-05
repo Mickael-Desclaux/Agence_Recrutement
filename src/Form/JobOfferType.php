@@ -6,6 +6,7 @@ use App\Entity\JobOffer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -45,7 +46,7 @@ class JobOfferType extends AbstractType
                 ],
                 'placeholder' => 'Sélection'
             ])
-            ->add('jobDescription', TextType::class, [
+            ->add('jobDescription', TextareaType::class, [
                 'label' => 'Description',
                 'required' => true,
                 'constraints' => [

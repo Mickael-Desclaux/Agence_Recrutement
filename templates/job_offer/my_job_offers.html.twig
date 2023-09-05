@@ -3,10 +3,10 @@
 {% block title %}Mes annonces{% endblock %}
 
 {% block body %}
-    <h1>Mes Annonces</h1>
-    <div>
+    <h1 class="m-5 text-center">Mes Annonces</h1>
+    <div class="container-fluid text-center d-flex justify-content-center col-lg-8">
         {% for job_offer in my_job_offers %}
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 30rem;">
                 <div class="card-body">
                     <h2 class="card-title">{{ job_offer.jobTitle }}</h2>
                     <h3 class="card-subtitle mb-2 text-body-secondary">{{ job_offer.contractType ~ ' ' ~  job_offer.jobLocation }}</h3>

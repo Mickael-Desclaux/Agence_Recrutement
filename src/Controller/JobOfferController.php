@@ -100,8 +100,8 @@ class JobOfferController extends AbstractController
         $entityManager->persist($application);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Votre candidature a été soumise.');
+        $this->addFlash('notice', 'Votre candidature a été soumise.');
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('job_offer_consultation', ['id' => $jobOfferId]);
     }
 }

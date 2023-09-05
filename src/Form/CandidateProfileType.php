@@ -55,6 +55,9 @@ class CandidateProfileType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CandidateProfile::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'candidate_profile_lastname',
         ]);
     }
 }

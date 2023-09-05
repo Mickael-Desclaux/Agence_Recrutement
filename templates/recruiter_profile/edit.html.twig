@@ -3,11 +3,21 @@
 {% block title %}Profil{% endblock %}
 
 {% block body %}
-
-    <div>
+<h1 class="m-5 text-center">Éditer mon profil</h1>
+    <div class="container-fluid col-lg-8">
         {{ form_start(editForm) }}
 
-        {{ form_widget(editForm) }}
+        <div class="mb-2 mt-4">
+            {{ form_label(editForm.companyName, null, { 'label_attr': { 'class': 'form-label' }}) }}
+            {{ form_widget(editForm.companyName, {'attr': { 'class': 'form-control'}}) }}
+            {{ form_errors(editForm.companyName ) }}
+        </div>
+        <div class="mb-2 mt-4">
+            {{ form_label(editForm.companyAddress, null, { 'label_attr': { 'class': 'form-label' }}) }}
+            {{ form_widget(editForm.companyAddress, {'attr': { 'class': 'form-control'}}) }}
+            {{ form_errors(editForm.companyAddress ) }}
+        </div>
+        <div class="mt-4 d-flex justify-content-center">{{ form_widget(editForm.submit, { 'attr': {'class': 'btn btn-primary'} }) }}</div>
 
         {{ form_end(editForm) }}
     </div>

@@ -3,8 +3,8 @@
 {% block title %}Mes annonces{% endblock %}
 
 {% block body %}
-    <div>
-        <div class="card" style="width: 18rem;">
+    <div class="container-fluid col-lg-10 flex-wrap mt-5">
+        <div class="card col-lg-10 text-center d-flex justify-content-center" style="width: 100%;">
             <div class="card-body">
                 <h2 class="card-title">{{ job_offer.jobTitle }}</h2>
                 <h3 class="card-subtitle mb-2 text-body-secondary">{{ job_offer.contractType ~ ' ' ~  job_offer.jobLocation }}</h3>
@@ -15,7 +15,8 @@
             </div>
         </div>
 
-        <h2>Candidatures pour cette annonce :</h2>
+        <div class="col-lg-8 mt-5">
+        <h2 class="mb-3">Candidatures pour cette annonce :</h2>
         <ul>
             {% for application in valid_applications %}
                 <ul>
@@ -27,6 +28,7 @@
                 <li>Aucun candidat n'a postulé pour cette annonce.</li>
             {% endfor %}
         </ul>
+        </div>
 
     </div>
 {% endblock %}
