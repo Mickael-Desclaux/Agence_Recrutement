@@ -35,7 +35,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Offres d\'emplois', 'fas fa-list', JobOffer::class);
         yield MenuItem::linkToCrud('Candidatures', 'fas fa-list', Application::class);
-        yield MenuItem::linkToCrud('Profils Candidats', 'fas fa-user', CandidateProfile::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Profils Recruteurs', 'fa-solid fa-building', RecruiterProfile::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Profils Candidats', 'fas fa-user', CandidateProfile::class);
+        yield MenuItem::linkToCrud('Profils Recruteurs', 'fa-solid fa-building', RecruiterProfile::class);
+        yield MenuItem::linkToLogout('Déconnexion', 'fa-sharp fa-solid fa-circle-xmark');
     }
 }

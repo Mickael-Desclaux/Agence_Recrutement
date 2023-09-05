@@ -60,7 +60,9 @@ class UserCrudController extends AbstractCrudController implements EventSubscrib
         yield ChoiceField::new('role')->setChoices([
             'ROLE_CONSULTANT' => 'ROLE_CONSULTANT',
             'ROLE_CANDIDATE_VALID' => 'ROLE_CANDIDATE_VALID',
+            'ROLE_CANDIDATE' => 'ROLE_CANDIDATE',
             'ROLE_RECRUITER_VALID' => 'ROLE_RECRUITER_VALID',
+            'ROLE_RECRUITER' => 'ROLE_RECRUITER',
         ])
             ->setLabel('Rôle');
         yield BooleanField::new('userValidation')->setLabel('Validation');
@@ -75,7 +77,7 @@ class UserCrudController extends AbstractCrudController implements EventSubscrib
             ->add('index', $validateUser);
     }
 
-    public function validateUser(AdminContext $context)
+    public function validateUser(AdminContext $context): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $user = $context->getEntity()->getInstance();
 

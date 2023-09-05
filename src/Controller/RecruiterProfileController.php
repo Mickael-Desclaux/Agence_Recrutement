@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\RecruiterProfileType;
 use App\Repository\RecruiterProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;

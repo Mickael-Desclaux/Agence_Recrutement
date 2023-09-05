@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\CandidateProfileType;
 use App\Repository\CandidateProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,14 +19,10 @@ class CandidateProfileController extends AbstractController
     #[Route('/candidate/profile', name: 'candidate_profile')]
     public function profileView(CandidateProfileRepository $candidateProfileRepository, UserInterface $user): Response
     {
-        $recruiterProfile = $candidateProfileRepository->findOneBy(['user' => $user]);
-
-        if (!$recruiterProfile) {
-            throw $this->createNotFoundException('Aucun profil trouvé pour ce candidat');
-        }
+        $candidateProfile = $candidateProfileRepository->findOneBy(['user' => $user]);
 
         return $this->render('candidate_profile/index.html.twig', [
-            'candidateProfile' => $recruiterProfile,
+            'candidateProfile' => $candidateProfile,
         ]);
     }
 
@@ -35,10 +30,6 @@ class CandidateProfileController extends AbstractController
     public function editProfile(Request $request, UserInterface $user, CandidateProfileRepository $candidateProfileRepository, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $candidateProfile = $candidateProfileRepository->findOneBy(['user' => $user]);
-
-        if (!$candidateProfile) {
-            throw $this->createNotFoundException('Aucun profil trouvé pour ce candidat');
-        }
 
         $form = $this->createForm(CandidateProfileType::class, $candidateProfile);
 
@@ -60,11 +51,10 @@ class CandidateProfileController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    echo "Une erreur s'est produite lors du téléchargement du fichier. Veuillez réessayer.";
+                    error_log($e->getMessage());
                 }
 
-                // updates the 'resume' property to store the PDF file name
-                // instead of its contents
                 $candidateProfile->setResume($newFilename);
             }
 

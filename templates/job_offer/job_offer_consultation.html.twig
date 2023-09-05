@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes annonces{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h2 class="card-title">{{ job_offer.jobTitle }}</h2>
+                <h3 class="card-subtitle mb-2 text-body-secondary">{{ job_offer.contractType ~ ' ' ~  job_offer.jobLocation }}</h3>
+                <p class="card-text">{{ job_offer.jobDescription }} <br>
+                    {{ job_offer.candidateExperience }}<br>
+                    {{ job_offer.workingHours }}<br>
+                    {{ job_offer.salary }}</p>
+                {% if is_granted('ROLE_CANDIDATE_VALID') %}
+                    <a href="{{ path('job_offer_application', {'jobOfferId': job_offer.id}) }}"
+                       class="card-link">Postuler</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

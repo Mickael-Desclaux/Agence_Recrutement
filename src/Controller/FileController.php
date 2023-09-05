@@ -23,8 +23,6 @@ class FileController extends AbstractController
         $resumesDirectory = $this->getParameter('resumes_directory');
         $file = $resumesDirectory . $filename;
 
-        // Vérifier si le fichier existe et que l'utilisateur a les droits nécessaires ici
-
         return new BinaryFileResponse($file);
     }
 }
