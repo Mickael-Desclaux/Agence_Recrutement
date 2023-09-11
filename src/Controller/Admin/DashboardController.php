@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin', schemes: ['https'])]
+    #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
          $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
