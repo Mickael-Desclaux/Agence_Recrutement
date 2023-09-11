@@ -8,7 +8,7 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class EmailService
 {
-    private $mailer;
+    private MailerInterface $mailer;
 
     public function __construct(MailerInterface $mailer)
     {

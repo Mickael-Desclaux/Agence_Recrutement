@@ -27,8 +27,11 @@ final class Version20230823082257 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE role_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE application (id INT NOT NULL, job_offer_id INT NOT NULL, candidate_id INT NOT NULL, application_validation BOOLEAN NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE candidate_profile (id INT NOT NULL, user_id INT NOT NULL, last_name VARCHAR(50) DEFAULT NULL, first_name VARCHAR(50) DEFAULT NULL, resume VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE job_offer (id INT NOT NULL, recruiter_id INT NOT NULL, job_title VARCHAR(100) NOT NULL, job_location VARCHAR(255) NOT NULL, contract_type VARCHAR(30) NOT NULL, job_description VARCHAR(2000) NOT NULL, candidate_experience VARCHAR(500) DEFAULT NULL, working_hours VARCHAR(150) NOT NULL, salary VARCHAR(50) NOT NULL, publish_validation BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE candidate_profile (id INT NOT NULL, user_id INT NOT NULL, last_name VARCHAR(50) DEFAULT NULL, first_name VARCHAR(50) DEFAULT NULL, 
+        resume VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE job_offer (id INT NOT NULL, recruiter_id INT NOT NULL, job_title VARCHAR(100) NOT NULL, job_location VARCHAR(255) NOT NULL, 
+        contract_type VARCHAR(30) NOT NULL, job_description VARCHAR(2000) NOT NULL, candidate_experience VARCHAR(500) DEFAULT NULL, working_hours VARCHAR(150) NOT NULL, salary VARCHAR(50) NOT NULL, 
+        publish_validation BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE recruiter_profile (id INT NOT NULL, user_id INT NOT NULL, company_name VARCHAR(50) DEFAULT NULL, company_address VARCHAR(150) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE role (id INT NOT NULL, name VARCHAR(30) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(50) NOT NULL, role_id INT NOT NULL, account_validation BOOLEAN NOT NULL, PRIMARY KEY(id))');
